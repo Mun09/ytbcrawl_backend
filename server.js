@@ -45,7 +45,7 @@ const Video = mongoose.model('Video', videoSchema);
 const getYoutubeVideoStats = async (videoId) => {
   try {
     const apiKey = process.env.YOUTUBE_API_KEY;
-    const url = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=snippet,statistics&key=${apiKey}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=snippet,statistics&fields=items(id,snippet(title),statistics(viewCount))&key=${apiKey}`;
     const response = await axios.get(url);
 
     if (response.data.items.length === 0) {
@@ -67,7 +67,7 @@ const getYoutubeVideoStats = async (videoId) => {
 const getYoutubeVideoIdByTitle = async (title) => {
   try {
     const apiKey = process.env.YOUTUBE_API_KEY;
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(title)}&key=${apiKey}`;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=id&q=${encodeURIComponent(title)}&type=video&key=${apiKey}`;
     const response = await axios.get(url);
 
     if (response.data.items.length === 0) {
